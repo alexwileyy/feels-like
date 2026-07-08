@@ -151,7 +151,7 @@ export default function Onboarding({ onDone }: { onDone: (r: Ratings) => void })
               <img
                 src="/characters/celebration.png"
                 alt=""
-                className="h-64 w-64 object-contain drop-shadow-xl"
+                className="aspect-square w-full max-w-[340px] object-contain drop-shadow-xl"
                 onError={(e) => ((e.target as HTMLImageElement).src = "/characters/mild.png")}
               />
               <h1 className="text-4xl font-bold tracking-tight">You&apos;re all set</h1>
