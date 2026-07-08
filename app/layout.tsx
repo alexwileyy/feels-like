@@ -8,14 +8,20 @@ const elms = Elms_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Feels",
+  title: "Feels like",
   description: "Weather that knows how you feel",
+  appleWebApp: {
+    capable: true,
+    title: "Feels like",
+    statusBarStyle: "default",
+  },
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
+  themeColor: "#ffffff",
 };
 
 export default function RootLayout({
