@@ -41,9 +41,26 @@ body {
   100% { transform: translate(-8%, -15%) scale(1.15); }
 }
 .blob { position: absolute; will-change: transform; }
-.blob-a { animation: drift-a 26s ease-in-out infinite alternate; }
-.blob-b { animation: drift-b 32s ease-in-out infinite alternate; }
-.blob-c { animation: drift-c 23s ease-in-out infinite alternate; }
+.blob-a { animation: drift-a 21s ease-in-out infinite alternate; }
+.blob-b { animation: drift-b 26s ease-in-out infinite alternate; }
+.blob-c { animation: drift-c 18s ease-in-out infinite alternate; }
+
+/* Night mode: applied to <main> when the time of day is night. Custom rules
+   here are unlayered, so they win over the Tailwind utilities they retint. */
+.night { color: #f2efe9; }
+.night .glass {
+  background: rgb(255 255 255 / 0.08);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-color: rgb(255 255 255 / 0.12);
+  box-shadow: 0 10px 32px rgb(0 0 0 / 0.45);
+}
+.night .text-neutral-700 { color: #e6e2da; }
+.night .text-neutral-500 { color: rgb(220 215 205 / 0.8); }
+.night .text-neutral-400 { color: rgb(210 205 195 / 0.55); }
+.night .text-neutral-300 { color: rgb(255 255 255 / 0.28); }
+.night .border-neutral-100 { border-color: rgb(255 255 255 / 0.09); }
+.night .border-neutral-900\/5 { border-color: rgb(255 255 255 / 0.1); }
 
 /* Soft glass surface for the supporting-info card */
 .glass {

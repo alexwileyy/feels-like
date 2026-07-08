@@ -144,6 +144,7 @@ export default function Page() {
     return {
       word,
       scene,
+      tod,
       palette: PALETTES[scene][tod],
       rec: recommendationFor({ word, isRaining, windKmh }),
       feelsLike,
@@ -171,9 +172,15 @@ export default function Page() {
   const hour = new Date().getHours();
   const greeting = hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
 
+  const isNight = view?.tod === "night";
+
   return (
-    <main className="h-dvh snap-y snap-mandatory overflow-y-auto">
-      <GradientBackground palette={view?.palette ?? PALETTES.mild.day} />
+    <main
+      className={`h-dvh snap-y snap-mandatory overflow-y-auto transition-colors duration-1000 ${
+        isNight ? "night" : "text-neutral-900"
+      }`}
+    >
+      <GradientBackground palette={view?.palette ?? PALETTES.mild.day} tod={view?.tod} />
       <Greeting text={name ? `${greeting}, ${name}` : greeting} done={introDone} />
 
       {introDone && view && (

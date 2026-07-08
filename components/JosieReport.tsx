@@ -67,7 +67,7 @@ export default function JosieReport({ input }: { input: SummaryInput }) {
         className="h-12 w-12 shrink-0 rounded-full border border-black/5 bg-white object-cover shadow-sm"
         onError={(e) => ((e.target as HTMLImageElement).src = "/characters/mild.png")}
       />
-      <div className="relative flex-1 rounded-2xl rounded-tl-sm bg-neutral-900/[0.05] px-4 py-3">
+      <div className="glass relative flex-1 rounded-2xl rounded-tl-sm px-4 py-3">
         <AnimatePresence mode="wait">
           <motion.p
             key={text}
