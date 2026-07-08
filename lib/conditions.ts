@@ -62,6 +62,46 @@ export function glyphFor(word: FeelingWord, isRaining: boolean): string {
   return isRaining ? "umbrella" : WORD_GLYPHS[word];
 }
 
+// Complete outfits for the day-ahead list - hours are outfits, not garments.
+const OUTFITS: Record<FeelingWord, string> = {
+  FREEZING: "Big coat, hat and gloves",
+  COLD: "Warm coat and boots",
+  MILD: "Jumper and jeans",
+  WARM: "Tee and light jacket",
+  HOT: "T-shirt and shorts",
+};
+
+export function outfitFor(word: FeelingWord, isRaining: boolean): string {
+  return isRaining ? "Raincoat and brolly" : OUTFITS[word];
+}
+
+// Playful one-liners on the rows where something actually changes -
+// annotating every row would kill the joke.
+const WORD_ORDER: FeelingWord[] = ["FREEZING", "COLD", "MILD", "WARM", "HOT"];
+
+export function annotateHours(
+  hours: { word: FeelingWord; isRaining: boolean }[]
+): (string | null)[] {
+  return hours.map((h, i) => {
+    if (i === 0) return null;
+    const prev = hours[i - 1];
+    if (!prev.isRaining && h.isRaining) return "Rain rolls in around now";
+    if (prev.isRaining && !h.isRaining) return "Rain clears up after this";
+    const delta = WORD_ORDER.indexOf(h.word) - WORD_ORDER.indexOf(prev.word);
+    if (delta < 0) {
+      return h.word === "FREEZING"
+        ? "Proper cold incoming, wrap right up"
+        : "Turns cooler from here, take a layer";
+    }
+    if (delta > 0) {
+      return h.word === "HOT"
+        ? "Deodorant o'clock, it gets proper hot"
+        : "Warms up a touch from here";
+    }
+    return null;
+  });
+}
+
 export function timeOfDay(now: Date, sunrise: Date, sunset: Date): TimeOfDay {
   const HOUR = 60 * 60 * 1000;
   const t = now.getTime();

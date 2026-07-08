@@ -2,7 +2,9 @@
 
 import { motion } from "motion/react";
 import type { FeelingWord } from "@/lib/calibration";
-import { glyphFor } from "@/lib/conditions";
+import { annotateHours, glyphFor, outfitFor } from "@/lib/conditions";
+import type { SummaryInput } from "@/lib/summary";
+import JosieReport from "./JosieReport";
 
 export interface RailHour {
   label: string;
@@ -11,41 +13,45 @@ export interface RailHour {
   feelsLike: number;
 }
 
-const OUTFIT: Record<FeelingWord, string> = {
-  FREEZING: "Big coat",
-  COLD: "Coat on",
-  MILD: "Jumper",
-  WARM: "T-shirt",
-  HOT: "Shorts",
-};
-
-export default function DayList({ hours }: { hours: RailHour[] }) {
+export default function DayList({
+  hours,
+  report,
+}: {
+  hours: RailHour[];
+  report: SummaryInput;
+}) {
   if (hours.length === 0) return null;
+  const notes = annotateHours(hours);
 
   return (
-    <section className="mx-auto w-full max-w-md px-6 pb-16">
-      <h3 className="pb-2 pt-4 text-lg font-semibold text-neutral-400">
-        The rest of your day
-      </h3>
+    <section className="mx-auto w-full max-w-md px-6 pb-16 pt-2">
+      <JosieReport input={report} />
       <ul>
         {hours.map((h, i) => (
           <motion.li
             key={h.label}
-            className="flex items-center gap-4 border-b border-neutral-100 py-3"
+            className="flex items-center gap-4 border-b border-neutral-100 py-3.5"
             initial={{ opacity: 0, y: 14 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-40px" }}
             transition={{ delay: Math.min(i * 0.03, 0.3), type: "spring", stiffness: 300, damping: 26 }}
           >
-            <span className="w-14 text-sm font-semibold text-neutral-400">{h.label}</span>
+            <span className="w-12 text-sm font-semibold text-neutral-400">{h.label}</span>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={`/glyphs/${glyphFor(h.word, h.isRaining)}.png`}
               alt=""
               className="h-9 w-9 drop-shadow-sm"
             />
-            <span className="flex-1 text-base font-semibold">
-              {h.isRaining ? "Umbrella up" : OUTFIT[h.word]}
+            <span className="flex-1">
+              <span className="block text-base font-semibold">
+                {outfitFor(h.word, h.isRaining)}
+              </span>
+              {notes[i] && (
+                <span className="block pt-0.5 text-xs font-semibold text-accent">
+                  {notes[i]}
+                </span>
+              )}
             </span>
             <span className="text-base font-semibold text-neutral-500">
               {Math.round(h.feelsLike)}°

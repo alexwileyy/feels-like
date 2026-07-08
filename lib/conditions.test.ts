@@ -1,7 +1,9 @@
 import { describe, expect, test } from "vitest";
 import {
+  annotateHours,
   glyphFor,
   isRainy,
+  outfitFor,
   recommendationFor,
   sceneFor,
   timeOfDay,
@@ -80,6 +82,52 @@ describe("glyphFor", () => {
     expect(glyphFor("MILD", false)).toBe("scarf");
     expect(glyphFor("WARM", false)).toBe("tshirt");
     expect(glyphFor("HOT", false)).toBe("shorts");
+  });
+});
+
+describe("outfitFor", () => {
+  test("describes complete outfits, not single garments", () => {
+    expect(outfitFor("HOT", false)).toBe("T-shirt and shorts");
+    expect(outfitFor("MILD", false)).toBe("Jumper and jeans");
+    expect(outfitFor("FREEZING", false)).toBe("Big coat, hat and gloves");
+  });
+
+  test("rain overrides with a rain outfit", () => {
+    expect(outfitFor("MILD", true)).toBe("Raincoat and brolly");
+  });
+});
+
+describe("annotateHours", () => {
+  test("flags when rain starts and clears", () => {
+    const notes = annotateHours([
+      { word: "MILD", isRaining: false },
+      { word: "MILD", isRaining: true },
+      { word: "MILD", isRaining: true },
+      { word: "MILD", isRaining: false },
+    ]);
+    expect(notes[1]).toMatch(/rain/i);
+    expect(notes[2]).toBeNull();
+    expect(notes[3]).toMatch(/clear/i);
+  });
+
+  test("flags when it turns colder or hotter", () => {
+    const notes = annotateHours([
+      { word: "WARM", isRaining: false },
+      { word: "WARM", isRaining: false },
+      { word: "MILD", isRaining: false },
+      { word: "HOT", isRaining: false },
+    ]);
+    expect(notes[0]).toBeNull();
+    expect(notes[2]).toMatch(/cool/i);
+    expect(notes[3]).toMatch(/hot/i);
+  });
+
+  test("quiet days get no annotations", () => {
+    const notes = annotateHours([
+      { word: "MILD", isRaining: false },
+      { word: "MILD", isRaining: false },
+    ]);
+    expect(notes.every((n) => n === null)).toBe(true);
   });
 });
 

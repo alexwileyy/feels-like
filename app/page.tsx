@@ -96,14 +96,16 @@ export default function Page() {
 
     let rail: RailHour[];
     if (ov.scene) {
-      // Forced scene: synthesise a coherent day so the list matches the story.
+      // Forced scene: synthesise a coherent day so the list matches the story
+      // - rain (if any) falls through the afternoon then clears, temps drift
+      // gently rather than flapping across band boundaries.
       rail = Array.from({ length: 10 }, (_, i) => {
         const h = (now.getHours() + i + 1) % 24;
-        const t = feelsLike + Math.round(Math.sin(i / 2.5) * 2);
+        const t = feelsLike + Math.floor(i / 4);
         return {
           label: `${h}:00`,
           word: wordForTemp(t, r),
-          isRaining: isRaining && i % 4 !== 3,
+          isRaining: isRaining && i < 6,
           feelsLike: t,
         };
       });
@@ -217,7 +219,16 @@ export default function Page() {
             </motion.div>
           </section>
 
-          <DayList hours={view.rail} />
+          <DayList
+            hours={view.rail}
+            report={{
+              word: view.word,
+              feelsLike: view.feelsLike,
+              windKmh: view.stats.windKmh,
+              rainPct: view.stats.rainPct,
+              hours: view.rail,
+            }}
+          />
         </>
       )}
 
