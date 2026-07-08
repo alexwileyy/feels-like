@@ -167,13 +167,13 @@ export default function Page() {
   const greeting = hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
 
   return (
-    <main>
+    <main className="h-dvh snap-y snap-mandatory overflow-y-auto">
       <GradientBackground palette={view?.palette ?? PALETTES.mild.day} />
       <Greeting text={`${greeting}, Josie`} done={introDone} />
 
       {introDone && view && (
         <>
-          <section className="relative mx-auto flex h-dvh max-w-md flex-col px-6">
+          <section className="relative mx-auto flex h-dvh max-w-md snap-start flex-col px-6">
             {weather && !weather.live && (
               <span className="absolute right-6 top-8 rounded-full bg-neutral-900/5 px-3 py-1 text-xs font-semibold text-neutral-500">
                 demo data
@@ -196,7 +196,7 @@ export default function Page() {
                   wordMotion={view.wordMotion}
                 />
               </motion.div>
-              <motion.div variants={rise} className="w-full">
+              <motion.div variants={rise} className="mt-6 w-full">
                 <SupportCard text={view.rec} stats={view.stats} />
               </motion.div>
             </motion.div>
@@ -219,16 +219,18 @@ export default function Page() {
             </motion.div>
           </section>
 
-          <DayList
-            hours={view.rail}
-            report={{
-              word: view.word,
-              feelsLike: view.feelsLike,
-              windKmh: view.stats.windKmh,
-              rainPct: view.stats.rainPct,
-              hours: view.rail,
-            }}
-          />
+          <section className="h-dvh snap-start">
+            <DayList
+              hours={view.rail}
+              report={{
+                word: view.word,
+                feelsLike: view.feelsLike,
+                windKmh: view.stats.windKmh,
+                rainPct: view.stats.rainPct,
+                hours: view.rail,
+              }}
+            />
+          </section>
         </>
       )}
 

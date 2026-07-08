@@ -24,9 +24,9 @@ export default function DayList({
   const notes = annotateHours(hours);
 
   return (
-    <section className="mx-auto w-full max-w-md px-6 pb-16 pt-2">
+    <div className="mx-auto flex h-full w-full max-w-md flex-col px-6 pt-8">
       <JosieReport input={report} />
-      <ul>
+      <ul className="min-h-0 flex-1 overflow-y-auto pb-10 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {hours.map((h, i) => (
           <motion.li
             key={h.label}
@@ -59,6 +59,6 @@ export default function DayList({
           </motion.li>
         ))}
       </ul>
-    </section>
+    </div>
   );
 }
