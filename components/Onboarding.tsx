@@ -58,7 +58,7 @@ export default function Onboarding({
   const cleanName = name.trim();
 
   const primaryButton =
-    "w-full rounded-full bg-neutral-900 px-8 py-4 text-lg font-semibold text-white shadow-xl transition-transform active:scale-95 disabled:opacity-30";
+    "w-full rounded-full bg-accent px-8 py-4 text-lg font-semibold text-white shadow-lg shadow-accent/30 transition-transform active:scale-95 disabled:opacity-30";
 
   const band = tempIndex >= 0 ? BANDS.find((b) => ratings[tempIndex] < b.below)! : null;
 
@@ -123,7 +123,7 @@ export default function Onboarding({
                 autoComplete="given-name"
                 maxLength={24}
                 aria-label="Your name"
-                className="w-full border-b-2 border-neutral-900/10 bg-transparent pb-3 text-center text-4xl font-bold tracking-tight outline-none transition-colors placeholder:text-neutral-300 focus:border-accent"
+                className="w-full rounded-2xl border border-black/5 bg-white px-6 py-5 text-center text-3xl font-bold tracking-tight shadow-[0_8px_30px_rgb(0_0_0/0.08)] outline-none transition placeholder:text-neutral-300 focus:border-accent focus:ring-2 focus:ring-accent/40"
               />
             </div>
             <div className="pb-10">
