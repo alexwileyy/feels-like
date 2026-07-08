@@ -1,8 +1,11 @@
 @import "tailwindcss";
 
 @theme inline {
-  --font-sans: var(--font-nunito);
-  --font-display: var(--font-fredoka);
+  --font-sans: var(--font-elms);
+}
+
+@theme {
+  --color-accent: #e8703a;
 }
 
 html,
@@ -12,67 +15,47 @@ body {
 }
 
 body {
-  font-family: var(--font-nunito), system-ui, sans-serif;
+  font-family: var(--font-elms), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Ambient blob drift - three phase-shifted, very slow wanders */
+/* Ambient tint drift - slow, subtle wander of the radial washes */
 @keyframes drift-a {
-  from { transform: translate(-8%, -4%) scale(1); }
-  to { transform: translate(10%, 8%) scale(1.15); }
+  from { transform: translate(-4%, -3%) scale(1); }
+  to { transform: translate(5%, 4%) scale(1.08); }
 }
 @keyframes drift-b {
-  from { transform: translate(6%, 10%) scale(1.1); }
-  to { transform: translate(-10%, -6%) scale(0.95); }
+  from { transform: translate(4%, 5%) scale(1.05); }
+  to { transform: translate(-5%, -3%) scale(0.96); }
 }
 @keyframes drift-c {
-  from { transform: translate(4%, -10%) scale(0.95); }
-  to { transform: translate(-6%, 6%) scale(1.2); }
+  from { transform: translate(2%, -5%) scale(0.97); }
+  to { transform: translate(-3%, 4%) scale(1.1); }
 }
-
-.blob {
-  position: absolute;
-  border-radius: 9999px;
-  filter: blur(70px);
-  transition: background-color 1.2s ease;
-  will-change: transform;
-}
-.blob-a { animation: drift-a 22s ease-in-out infinite alternate; }
-.blob-b { animation: drift-b 27s ease-in-out infinite alternate; }
-.blob-c { animation: drift-c 19s ease-in-out infinite alternate; }
-
-/* Soft glass surface used across chips, cards and the demo panel */
-.glass {
-  background: color-mix(in srgb, white 42%, transparent);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid color-mix(in srgb, white 55%, transparent);
-  box-shadow: 0 8px 28px rgb(0 0 0 / 0.07);
-}
-.dark-scene .glass {
-  background: color-mix(in srgb, white 12%, transparent);
-  border-color: color-mix(in srgb, white 18%, transparent);
-}
+.blob { position: absolute; will-change: transform; }
+.blob-a { animation: drift-a 26s ease-in-out infinite alternate; }
+.blob-b { animation: drift-b 31s ease-in-out infinite alternate; }
+.blob-c { animation: drift-c 23s ease-in-out infinite alternate; }
 
 /* Chunky calibration slider */
 input[type="range"].thermo {
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
-  height: 18px;
+  height: 16px;
   border-radius: 9999px;
   background: linear-gradient(90deg, #7fb8f0, #a8d8c8, #ffd98a, #ff9d6b, #ff6b6b);
-  box-shadow: inset 0 2px 6px rgb(0 0 0 / 0.15);
+  box-shadow: inset 0 2px 6px rgb(0 0 0 / 0.12);
   outline-offset: 4px;
 }
 input[type="range"].thermo::-webkit-slider-thumb {
   -webkit-appearance: none;
-  height: 40px;
-  width: 40px;
+  height: 38px;
+  width: 38px;
   border-radius: 9999px;
   background: white;
-  border: 4px solid #2b2530;
-  box-shadow: 0 4px 12px rgb(0 0 0 / 0.25);
+  border: 4px solid #171717;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.22);
   cursor: grab;
 }
 input[type="range"].thermo:active::-webkit-slider-thumb {
@@ -80,12 +63,12 @@ input[type="range"].thermo:active::-webkit-slider-thumb {
   transform: scale(1.1);
 }
 input[type="range"].thermo::-moz-range-thumb {
-  height: 40px;
-  width: 40px;
+  height: 38px;
+  width: 38px;
   border-radius: 9999px;
   background: white;
-  border: 4px solid #2b2530;
-  box-shadow: 0 4px 12px rgb(0 0 0 / 0.25);
+  border: 4px solid #171717;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.22);
   cursor: grab;
 }
 

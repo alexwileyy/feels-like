@@ -9,12 +9,12 @@ export interface Overrides {
   tod: TimeOfDay | null;
 }
 
-const SCENES: { scene: Scene; emoji: string; label: string }[] = [
-  { scene: "hot", emoji: "☀️", label: "Hot" },
-  { scene: "mild", emoji: "🌤️", label: "Mild" },
-  { scene: "rain", emoji: "🌧️", label: "Rain" },
-  { scene: "cold", emoji: "🍂", label: "Cold" },
-  { scene: "freezing", emoji: "❄️", label: "Freezing" },
+const SCENES: { scene: Scene; glyph: string; label: string }[] = [
+  { scene: "hot", glyph: "sun", label: "Hot" },
+  { scene: "mild", glyph: "suncloud", label: "Mild" },
+  { scene: "rain", glyph: "rain", label: "Rain" },
+  { scene: "cold", glyph: "leaf", label: "Cold" },
+  { scene: "freezing", glyph: "snowflake", label: "Freezing" },
 ];
 
 const TODS: TimeOfDay[] = ["dawn", "day", "dusk", "night"];
@@ -31,9 +31,14 @@ export default function DemoPanel({
   onChange: (o: Overrides) => void;
 }) {
   const chip = (active: boolean) =>
-    `rounded-full px-3 py-2 text-sm font-bold text-neutral-800 transition-transform active:scale-90 focus-visible:outline-2 focus-visible:outline-offset-2 ${
-      active ? "bg-neutral-900 text-white shadow-lg" : "bg-black/5"
+    `flex items-center gap-1.5 rounded-full px-3 py-2 text-sm font-semibold transition-transform active:scale-90 focus-visible:outline-2 focus-visible:outline-offset-2 ${
+      active ? "bg-neutral-900 text-white shadow-lg" : "bg-black/5 text-neutral-800"
     }`;
+
+  const icon = (name: string) => (
+    /* eslint-disable-next-line @next/next/no-img-element */
+    <img src={`/glyphs/${name}.png`} alt="" className="h-4.5 w-4.5" />
+  );
 
   const cycleTod = () => {
     const next = overrides.tod === null ? 0 : (TODS.indexOf(overrides.tod) + 1) % TODS.length;
@@ -51,37 +56,37 @@ export default function DemoPanel({
           transition={{ type: "spring", stiffness: 320, damping: 28 }}
         >
           <div
-            className="flex flex-wrap items-center justify-center gap-2 rounded-3xl p-3"
+            className="flex flex-wrap items-center justify-center gap-2 rounded-3xl border border-black/5 p-3"
             style={{
-              backgroundColor: "rgba(255,255,255,0.85)",
+              backgroundColor: "rgba(255,255,255,0.92)",
               backdropFilter: "blur(16px)",
               WebkitBackdropFilter: "blur(16px)",
-              boxShadow: "0 12px 40px rgb(0 0 0 / 0.18)",
+              boxShadow: "0 12px 40px rgb(0 0 0 / 0.15)",
             }}
           >
-            {SCENES.map(({ scene, emoji, label }) => (
+            {SCENES.map(({ scene, glyph, label }) => (
               <button
                 key={scene}
                 className={chip(overrides.scene === scene)}
                 onClick={() => onChange({ ...overrides, scene })}
               >
-                {emoji} {label}
+                {icon(glyph)} {label}
               </button>
             ))}
             <button
               className={chip(overrides.windy)}
               onClick={() => onChange({ ...overrides, windy: !overrides.windy })}
             >
-              💨 Wind
+              {icon("wind")} Wind
             </button>
             <button className={chip(overrides.tod !== null)} onClick={cycleTod}>
-              🕐 {overrides.tod ?? "time"}
+              {icon("moon")} {overrides.tod ?? "time"}
             </button>
             <button
               className={chip(false)}
               onClick={() => onChange({ scene: null, windy: false, tod: null })}
             >
-              📡 Live
+              {icon("antenna")} Live
             </button>
           </div>
         </motion.div>

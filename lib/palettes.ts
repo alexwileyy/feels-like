@@ -1,42 +1,40 @@
 import type { Scene, TimeOfDay } from "./conditions";
 
-// Each palette drives the ambient background: a base sky colour plus three
-// soft radial blobs layered and blurred over it. `dark` flips text colour.
+// The app background is always white; each palette is three soft tint colours
+// rendered as large radial washes that drift subtly behind the content.
 export interface Palette {
-  sky: string;
   blobs: [string, string, string];
-  dark: boolean;
 }
 
 export const PALETTES: Record<Scene, Record<TimeOfDay, Palette>> = {
   hot: {
-    dawn: { sky: "#ffe9d6", blobs: ["#ffc4a3", "#ffdf8e", "#ff9e9e"], dark: false },
-    day: { sky: "#ffedc4", blobs: ["#ffb85c", "#ffe38a", "#7fd8f7"], dark: false },
-    dusk: { sky: "#ffd9b0", blobs: ["#ff9d5c", "#e88bd0", "#ffc46b"], dark: false },
-    night: { sky: "#2a1e3f", blobs: ["#8a4d76", "#c96f4a", "#3f2f63"], dark: true },
+    dawn: { blobs: ["#ffd9c4", "#ffe9c8", "#ffc8b8"] },
+    day: { blobs: ["#ffd08a", "#ffe7b8", "#a8e1ff"] },
+    dusk: { blobs: ["#ffc49a", "#f0b8e0", "#ffdca8"] },
+    night: { blobs: ["#c9b8e8", "#f0c0a8", "#b8c4e8"] },
   },
   mild: {
-    dawn: { sky: "#f2ead9", blobs: ["#ffd9a8", "#bfe3c0", "#f3b8a0"], dark: false },
-    day: { sky: "#e3f0d9", blobs: ["#a8d8a8", "#ffe9a8", "#a5d8e8"], dark: false },
-    dusk: { sky: "#f0dfc8", blobs: ["#e8b88a", "#b8cfa0", "#d8a8c0"], dark: false },
-    night: { sky: "#1e2a35", blobs: ["#3f5a63", "#5a6e4f", "#2f3f55"], dark: true },
+    dawn: { blobs: ["#ffe2b8", "#cdebcf", "#f8cdbb"] },
+    day: { blobs: ["#c2e8c2", "#fff0be", "#bfe2f2"] },
+    dusk: { blobs: ["#eed2a8", "#cbdfb8", "#e8c2d8"] },
+    night: { blobs: ["#b8c8d8", "#c2d0b8", "#afc0dc"] },
   },
   rain: {
-    dawn: { sky: "#dfe3ea", blobs: ["#b8c4d6", "#d6cabb", "#9fb3c8"], dark: false },
-    day: { sky: "#d6dee8", blobs: ["#9fb8d0", "#c0cdd9", "#7f9cb8"], dark: false },
-    dusk: { sky: "#c4c4d6", blobs: ["#8f97b8", "#b0a0c0", "#6f7a9c"], dark: false },
-    night: { sky: "#161d2b", blobs: ["#2b3a55", "#3f3a5f", "#20304a"], dark: true },
+    dawn: { blobs: ["#cbd5e4", "#e0d8cc", "#b8c8dc"] },
+    day: { blobs: ["#b8cce0", "#d2dce6", "#9fb8d0"] },
+    dusk: { blobs: ["#bcc0d8", "#cbb8d4", "#a8b0cc"] },
+    night: { blobs: ["#aab8d4", "#b8b0d0", "#9cacc8"] },
   },
   cold: {
-    dawn: { sky: "#f5e8d5", blobs: ["#f0c898", "#e8a878", "#d8c4a0"], dark: false },
-    day: { sky: "#f7e9c8", blobs: ["#f0b868", "#e89858", "#d0c890"], dark: false },
-    dusk: { sky: "#ecd5b8", blobs: ["#e09858", "#c87848", "#b89878"], dark: false },
-    night: { sky: "#241c14", blobs: ["#5f4525", "#4a3520", "#38281a"], dark: true },
+    dawn: { blobs: ["#f6ddbc", "#f0c89c", "#e4d2b4"] },
+    day: { blobs: ["#f6d49c", "#f0b87e", "#e6d8a8"] },
+    dusk: { blobs: ["#eec08c", "#dca478", "#d8bc94"] },
+    night: { blobs: ["#d4bca0", "#c4a888", "#bcae9c"] },
   },
   freezing: {
-    dawn: { sky: "#e8ecf5", blobs: ["#c8d8f0", "#e0d0e8", "#a8c4e8"], dark: false },
-    day: { sky: "#ddeaf7", blobs: ["#aacdf0", "#d5e5f7", "#c8b8e8"], dark: false },
-    dusk: { sky: "#d0d4ec", blobs: ["#a0aee0", "#c8a8d8", "#8898cc"], dark: false },
-    night: { sky: "#131a30", blobs: ["#25355f", "#3a2f5a", "#1c2a4f"], dark: true },
+    dawn: { blobs: ["#dce6f6", "#e8dcf0", "#c8d8f0"] },
+    day: { blobs: ["#cce2f8", "#e2eefa", "#d4c8f0"] },
+    dusk: { blobs: ["#ccd2ee", "#dcc8e8", "#b4c0e4"] },
+    night: { blobs: ["#bcc8e8", "#c8bce0", "#acbcde"] },
   },
 };

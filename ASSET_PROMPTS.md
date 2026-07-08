@@ -75,6 +75,16 @@ Drop the finals into `public/characters/` as `hot.png`, `mild.png`, `rain.png`, 
 (the golden autumn scene) and `freezing.png` (the snowy winter scene).
 Placeholders are in the app meanwhile, so any time they land I can swap them in.
 
+## 6. CELEBRATION - onboarding complete (drop in as celebrate.png)
+
+> Same character, same style as the previous images. Now: she is jumping joyfully in
+> mid-air, arms stretched up in celebration, big delighted smile, eyes closed with
+> happiness, hair bouncing upward with the jump. She wears her cosy mustard-yellow knitted
+> jumper and blue jeans rolled at the ankle with white trainers. Beneath her (she has
+> jumped off it) is the same style of floating rounded island base in soft green grass.
+> Chunky 3D confetti pieces in coral, mustard and sky blue float in the air around her.
+> Transparent background. Square format.
+
 ## Stretch (only if the build is cruising): baby mode
 
 > Same style as the previous images: a baby version of the scene - a happy stylised baby in

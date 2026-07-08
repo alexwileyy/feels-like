@@ -1,46 +1,32 @@
 "use client";
 
+import { motion } from "motion/react";
 import type { Palette } from "@/lib/palettes";
 
-// Three huge blurred blobs drifting over a sky colour. Colours cross-fade via
-// CSS transitions when the palette changes; drift comes from globals.css.
+// White canvas with three soft radial washes that drift slowly (CSS
+// keyframes) and cross-fade colour when the palette changes (motion
+// interpolates the matching gradient strings).
+const wash = (color: string) =>
+  `radial-gradient(closest-side, ${color} 0%, rgba(255,255,255,0) 72%)`;
+
+const BLOBS = [
+  { cls: "blob-a", size: "95vmax", pos: { top: "-30%", left: "-25%" } },
+  { cls: "blob-b", size: "80vmax", pos: { bottom: "-28%", right: "-30%" } },
+  { cls: "blob-c", size: "70vmax", pos: { top: "28%", left: "18%" } },
+] as const;
+
 export default function GradientBackground({ palette }: { palette: Palette }) {
   return (
-    <div
-      aria-hidden
-      className="fixed inset-0 -z-10 overflow-hidden transition-colors duration-1000"
-      style={{ backgroundColor: palette.sky }}
-    >
-      <div
-        className="blob blob-a"
-        style={{
-          backgroundColor: palette.blobs[0],
-          width: "75vmax",
-          height: "75vmax",
-          top: "-25%",
-          left: "-20%",
-        }}
-      />
-      <div
-        className="blob blob-b"
-        style={{
-          backgroundColor: palette.blobs[1],
-          width: "65vmax",
-          height: "65vmax",
-          bottom: "-20%",
-          right: "-25%",
-        }}
-      />
-      <div
-        className="blob blob-c"
-        style={{
-          backgroundColor: palette.blobs[2],
-          width: "55vmax",
-          height: "55vmax",
-          top: "30%",
-          left: "25%",
-        }}
-      />
+    <div aria-hidden className="fixed inset-0 -z-10 overflow-hidden bg-white">
+      {BLOBS.map((b, i) => (
+        <motion.div
+          key={b.cls}
+          className={`blob ${b.cls}`}
+          style={{ width: b.size, height: b.size, opacity: 0.55, ...b.pos }}
+          animate={{ background: wash(palette.blobs[i]) }}
+          transition={{ duration: 1.2, ease: "easeInOut" }}
+        />
+      ))}
     </div>
   );
 }

@@ -19,7 +19,7 @@ export default function Headline({
       <AnimatePresence mode="popLayout">
         <motion.h2
           key={word}
-          className="font-display text-7xl font-bold tracking-tight"
+          className={`font-bold tracking-tight ${word.length > 5 ? "text-6xl" : "text-7xl"}`}
           initial="hidden"
           animate="show"
           exit={{ opacity: 0, y: -14, transition: { duration: 0.18 } }}
@@ -49,11 +49,11 @@ export default function Headline({
         </motion.h2>
       </AnimatePresence>
 
-      <div className="glass rounded-full px-5 py-2 font-display text-lg font-semibold">
+      <div className="rounded-full bg-neutral-900/[0.06] px-5 py-2 text-lg font-semibold">
         feels like {Math.round(feelsLike)}°
       </div>
       {showActual && (
-        <p className="text-sm font-semibold opacity-60">
+        <p className="text-sm font-medium text-neutral-400">
           the thermometer claims {Math.round(actual)}°
         </p>
       )}

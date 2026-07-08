@@ -7,10 +7,11 @@ import { isRainy, recommendationFor, sceneFor, timeOfDay, type Scene } from "@/l
 import { PALETTES } from "@/lib/palettes";
 import { fetchWeather, type Weather } from "@/lib/weather";
 import Character from "@/components/Character";
+import DayList, { type RailHour } from "@/components/DayList";
 import DemoPanel, { type Overrides } from "@/components/DemoPanel";
 import GradientBackground from "@/components/GradientBackground";
+import Greeting from "@/components/Greeting";
 import Headline from "@/components/Headline";
-import HourlyRail, { type RailHour } from "@/components/HourlyRail";
 import Onboarding from "@/components/Onboarding";
 import Recommendation from "@/components/Recommendation";
 
@@ -44,6 +45,7 @@ export default function Page() {
   const [ratings, setRatings] = useState<Ratings | null>(null);
   const [weather, setWeather] = useState<Weather | null>(null);
   const [introDone, setIntroDone] = useState(false);
+  const [greetingSettled, setGreetingSettled] = useState(false);
   const [demoOpen, setDemoOpen] = useState(false);
   const [ov, setOv] = useState<Overrides>({ scene: null, windy: false, tod: null });
 
@@ -94,7 +96,7 @@ export default function Page() {
 
     let rail: RailHour[];
     if (ov.scene) {
-      // Forced scene: synthesise a coherent day so the rail matches the story.
+      // Forced scene: synthesise a coherent day so the list matches the story.
       rail = Array.from({ length: 10 }, (_, i) => {
         const h = (now.getHours() + i + 1) % 24;
         const t = feelsLike + Math.round(Math.sin(i / 2.5) * 2);
@@ -145,57 +147,68 @@ export default function Page() {
   const greeting = hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
 
   return (
-    <main
-      className={`mx-auto min-h-dvh max-w-md ${
-        view?.palette.dark ? "dark-scene text-white" : "text-neutral-800"
-      }`}
-    >
+    <main>
       <GradientBackground palette={view?.palette ?? PALETTES.mild.day} />
+      {!greetingSettled && (
+        <Greeting
+          text={`${greeting}, Josie`}
+          introDone={introDone}
+          onSettled={() => setGreetingSettled(true)}
+        />
+      )}
 
-      {!introDone ? (
-        <motion.h1
-          layoutId="greeting"
-          className="fixed inset-0 z-10 grid place-items-center px-8 text-center font-display text-4xl font-semibold"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-        >
-          {greeting}, Josie
-        </motion.h1>
-      ) : (
+      {introDone && view && (
         <>
-          <header className="flex items-center justify-between px-6 pb-1 pt-8">
-            <motion.h1 layoutId="greeting" className="font-display text-xl font-semibold">
+          <section className="relative mx-auto flex h-dvh max-w-md flex-col px-6 pt-16">
+            <h1
+              className={`absolute left-6 top-8 text-xl font-bold ${
+                greetingSettled ? "" : "invisible"
+              }`}
+            >
               {greeting}, Josie
-            </motion.h1>
+            </h1>
             {weather && !weather.live && (
-              <span className="glass rounded-full px-3 py-1 text-xs font-bold opacity-70">
+              <span className="absolute right-6 top-8 rounded-full bg-neutral-900/5 px-3 py-1 text-xs font-semibold text-neutral-500">
                 demo data
               </span>
             )}
-          </header>
 
-          {view && (
-            <>
-              <motion.div
-                className="flex flex-col items-center gap-4 px-6 pt-2"
-                variants={stagger}
-                initial="hidden"
-                animate="show"
-              >
-                <motion.div variants={rise}>
-                  <Character scene={view.scene} />
-                </motion.div>
-                <motion.div variants={rise}>
-                  <Headline word={view.word} feelsLike={view.feelsLike} actual={view.actual} />
-                </motion.div>
-                <motion.div variants={rise} className="w-full pb-8">
-                  <Recommendation text={view.rec} />
-                </motion.div>
+            <motion.div
+              className="flex flex-1 flex-col items-center justify-center gap-4"
+              variants={stagger}
+              initial="hidden"
+              animate="show"
+            >
+              <motion.div variants={rise}>
+                <Character scene={view.scene} />
               </motion.div>
-              <HourlyRail hours={view.rail} />
-            </>
-          )}
+              <motion.div variants={rise}>
+                <Headline word={view.word} feelsLike={view.feelsLike} actual={view.actual} />
+              </motion.div>
+              <motion.div variants={rise} className="w-full">
+                <Recommendation text={view.rec} />
+              </motion.div>
+            </motion.div>
+
+            <motion.div
+              className="absolute bottom-5 left-1/2 -translate-x-1/2 text-neutral-300"
+              animate={{ y: [0, 6, 0] }}
+              transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
+              aria-hidden
+            >
+              <svg width="20" height="10" viewBox="0 0 20 10" fill="none">
+                <path
+                  d="M1 1l9 8 9-8"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </motion.div>
+          </section>
+
+          <DayList hours={view.rail} />
         </>
       )}
 
