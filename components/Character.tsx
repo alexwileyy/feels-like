@@ -28,7 +28,7 @@ export default function Character({ scene }: { scene: Scene }) {
   }, []);
 
   return (
-    <div className="relative mx-auto h-80 w-80">
+    <div className="relative mx-auto aspect-square w-full max-w-sm">
       <AnimatePresence mode="popLayout">
         <motion.div
           key={scene}

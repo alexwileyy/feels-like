@@ -11,9 +11,9 @@ import DayList, { type RailHour } from "@/components/DayList";
 import DemoPanel, { type Overrides } from "@/components/DemoPanel";
 import GradientBackground from "@/components/GradientBackground";
 import Greeting from "@/components/Greeting";
-import Headline from "@/components/Headline";
+import Headline, { type WordMotion } from "@/components/Headline";
 import Onboarding from "@/components/Onboarding";
-import Recommendation from "@/components/Recommendation";
+import SupportCard from "@/components/SupportCard";
 
 const RATINGS_KEY = "feels.ratings";
 
@@ -119,13 +119,31 @@ export default function Page() {
         }));
     }
 
+    const wordMotion: WordMotion =
+      windKmh >= 30
+        ? "gust"
+        : scene === "rain"
+          ? "drip"
+          : scene === "freezing"
+            ? "shiver"
+            : scene === "hot"
+              ? "heat"
+              : "calm";
+
+    const rainPct = ov.scene
+      ? ov.scene === "rain"
+        ? 85
+        : 5
+      : (weather.hourly.find((h) => h.time.getTime() >= now.getTime())?.precipProb ?? 0);
+
     return {
       word,
       scene,
       palette: PALETTES[scene][tod],
       rec: recommendationFor({ word, isRaining, windKmh }),
       feelsLike,
-      actual,
+      wordMotion,
+      stats: { actual, windKmh, rainPct },
       rail,
     };
   }, [weather, ratings, ov]);
@@ -161,19 +179,23 @@ export default function Page() {
             )}
 
             <motion.div
-              className="flex flex-1 flex-col items-center justify-center gap-4"
+              className="flex flex-1 flex-col items-center justify-center gap-5 pb-8"
               variants={stagger}
               initial="hidden"
               animate="show"
             >
-              <motion.div variants={rise}>
+              <motion.div variants={rise} className="w-full">
                 <Character scene={view.scene} />
               </motion.div>
               <motion.div variants={rise}>
-                <Headline word={view.word} feelsLike={view.feelsLike} actual={view.actual} />
+                <Headline
+                  word={view.word}
+                  feelsLike={view.feelsLike}
+                  wordMotion={view.wordMotion}
+                />
               </motion.div>
               <motion.div variants={rise} className="w-full">
-                <Recommendation text={view.rec} />
+                <SupportCard text={view.rec} stats={view.stats} />
               </motion.div>
             </motion.div>
 

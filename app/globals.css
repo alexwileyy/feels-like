@@ -37,6 +37,15 @@ body {
 .blob-b { animation: drift-b 31s ease-in-out infinite alternate; }
 .blob-c { animation: drift-c 23s ease-in-out infinite alternate; }
 
+/* Soft glass surface for the supporting-info card */
+.glass {
+  background: color-mix(in srgb, white 55%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgb(0 0 0 / 0.06);
+  box-shadow: 0 10px 32px rgb(0 0 0 / 0.09);
+}
+
 /* Chunky calibration slider */
 input[type="range"].thermo {
   -webkit-appearance: none;
