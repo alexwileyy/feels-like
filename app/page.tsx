@@ -234,9 +234,17 @@ export default function Page() {
             </motion.div>
           </section>
 
-          <section className="h-dvh snap-start">
+          <section className="min-h-dvh snap-start">
             <DayList
               hours={view.rail}
+              sun={{
+                rise: weather
+                  ? weather.sunrise.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false })
+                  : "--:--",
+                set: weather
+                  ? weather.sunset.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false })
+                  : "--:--",
+              }}
               report={{
                 name,
                 word: view.word,

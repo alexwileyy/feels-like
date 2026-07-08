@@ -60,6 +60,9 @@ body {
 .night .text-neutral-400 { color: rgb(210 205 195 / 0.55); }
 .night .text-neutral-300 { color: rgb(255 255 255 / 0.28); }
 .night .border-neutral-100 { border-color: rgb(255 255 255 / 0.09); }
+.night .divide-neutral-100 > :not([hidden]) ~ :not([hidden]) {
+  border-color: rgb(255 255 255 / 0.09);
+}
 .night .border-neutral-900\/5 { border-color: rgb(255 255 255 / 0.1); }
 
 /* Soft glass surface for the supporting-info card */
