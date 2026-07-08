@@ -10,7 +10,8 @@ const FALLBACK: Record<Scene, { main: string; accessory: string }> = {
   hot: { main: "sun", accessory: "bikini" },
   mild: { main: "suncloud", accessory: "scarf" },
   rain: { main: "rain", accessory: "umbrella" },
-  cold: { main: "snowflake", accessory: "coat" },
+  cold: { main: "leaf", accessory: "coat" },
+  freezing: { main: "snowflake", accessory: "gloves" },
 };
 
 export default function Character({ scene }: { scene: Scene }) {

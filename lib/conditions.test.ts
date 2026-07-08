@@ -14,7 +14,7 @@ describe("sceneFor", () => {
   });
 
   test("maps words to scenes when dry", () => {
-    expect(sceneFor("FREEZING", false)).toBe("cold");
+    expect(sceneFor("FREEZING", false)).toBe("freezing");
     expect(sceneFor("COLD", false)).toBe("cold");
     expect(sceneFor("MILD", false)).toBe("mild");
     expect(sceneFor("WARM", false)).toBe("mild");

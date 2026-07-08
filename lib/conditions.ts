@@ -1,6 +1,6 @@
 import type { FeelingWord } from "./calibration";
 
-export type Scene = "hot" | "mild" | "rain" | "cold";
+export type Scene = "hot" | "mild" | "rain" | "cold" | "freezing";
 export type TimeOfDay = "dawn" | "day" | "dusk" | "night";
 
 export interface ConditionInput {
@@ -13,7 +13,8 @@ const WINDY_KMH = 30;
 
 export function sceneFor(word: FeelingWord, isRaining: boolean): Scene {
   if (isRaining) return "rain";
-  if (word === "FREEZING" || word === "COLD") return "cold";
+  if (word === "FREEZING") return "freezing";
+  if (word === "COLD") return "cold";
   if (word === "HOT") return "hot";
   return "mild";
 }

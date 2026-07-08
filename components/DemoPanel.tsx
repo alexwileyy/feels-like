@@ -13,7 +13,8 @@ const SCENES: { scene: Scene; emoji: string; label: string }[] = [
   { scene: "hot", emoji: "☀️", label: "Hot" },
   { scene: "mild", emoji: "🌤️", label: "Mild" },
   { scene: "rain", emoji: "🌧️", label: "Rain" },
-  { scene: "cold", emoji: "❄️", label: "Cold" },
+  { scene: "cold", emoji: "🍂", label: "Cold" },
+  { scene: "freezing", emoji: "❄️", label: "Freezing" },
 ];
 
 const TODS: TimeOfDay[] = ["dawn", "day", "dusk", "night"];

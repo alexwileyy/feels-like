@@ -28,6 +28,12 @@ export const PALETTES: Record<Scene, Record<TimeOfDay, Palette>> = {
     night: { sky: "#161d2b", blobs: ["#2b3a55", "#3f3a5f", "#20304a"], dark: true },
   },
   cold: {
+    dawn: { sky: "#f5e8d5", blobs: ["#f0c898", "#e8a878", "#d8c4a0"], dark: false },
+    day: { sky: "#f7e9c8", blobs: ["#f0b868", "#e89858", "#d0c890"], dark: false },
+    dusk: { sky: "#ecd5b8", blobs: ["#e09858", "#c87848", "#b89878"], dark: false },
+    night: { sky: "#241c14", blobs: ["#5f4525", "#4a3520", "#38281a"], dark: true },
+  },
+  freezing: {
     dawn: { sky: "#e8ecf5", blobs: ["#c8d8f0", "#e0d0e8", "#a8c4e8"], dark: false },
     day: { sky: "#ddeaf7", blobs: ["#aacdf0", "#d5e5f7", "#c8b8e8"], dark: false },
     dusk: { sky: "#d0d4ec", blobs: ["#a0aee0", "#c8a8d8", "#8898cc"], dark: false },

@@ -22,7 +22,8 @@ const SCENE_TEMPS: Record<Scene, { feels: number; actualDelta: number }> = {
   hot: { feels: 29, actualDelta: -3 },
   mild: { feels: 17, actualDelta: 2 },
   rain: { feels: 14, actualDelta: 2 },
-  cold: { feels: 1, actualDelta: 4 },
+  cold: { feels: 11, actualDelta: 3 },
+  freezing: { feels: 1, actualDelta: 4 },
 };
 
 const stagger = {

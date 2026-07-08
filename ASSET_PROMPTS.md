@@ -52,7 +52,16 @@ towards Josie - just use the identical block in every prompt.
 > soft reflections. A chunky 3D rain cloud with tiny falling droplets floats above the
 > umbrella. Cheerful despite the rain.
 
-## 4. COLD - wrapped up warm
+## 4. COLD - golden autumn
+
+> Same character, same style, same island format as the previous image. Now: she wears a
+> camel-brown wool coat, unbuttoned over a cream jumper, with a burnt-orange knitted beanie
+> and brown ankle boots. The island base is a golden-grass path scattered with amber and
+> russet fallen leaves, with one beautiful small tree in full golden autumn foliage beside
+> her. Two or three chunky 3D leaves drift in the air around her. Cosy, breathing-in-the-
+> crisp-air pose, hands in coat pockets.
+
+## 5. FREEZING - wrapped up warm
 
 > Same character, same style, same island format as the previous image. Now: she wears a
 > puffy lilac winter coat zipped to the chin, a chunky cream bobble hat, matching mittens
@@ -62,7 +71,8 @@ towards Josie - just use the identical block in every prompt.
 
 ## Delivery
 
-Drop the finals into `public/characters/` as `hot.png`, `mild.png`, `rain.png`, `cold.png`.
+Drop the finals into `public/characters/` as `hot.png`, `mild.png`, `rain.png`, `cold.png`
+(the golden autumn scene) and `freezing.png` (the snowy winter scene).
 Placeholders are in the app meanwhile, so any time they land I can swap them in.
 
 ## Stretch (only if the build is cruising): baby mode
