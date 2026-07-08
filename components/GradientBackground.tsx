@@ -22,7 +22,7 @@ export default function GradientBackground({ palette }: { palette: Palette }) {
         <motion.div
           key={b.cls}
           className={`blob ${b.cls}`}
-          style={{ width: b.size, height: b.size, opacity: 0.55, ...b.pos }}
+          style={{ width: b.size, height: b.size, opacity: 0.75, ...b.pos }}
           animate={{ background: wash(palette.blobs[i]) }}
           transition={{ duration: 1.2, ease: "easeInOut" }}
         />
