@@ -29,7 +29,8 @@ const SCENE_TEMPS: Record<Scene, { feels: number; actualDelta: number }> = {
 
 const stagger = {
   hidden: {},
-  show: { transition: { staggerChildren: 0.14, delayChildren: 0.1 } },
+  // delayChildren lets the greeting finish its exit before content arrives
+  show: { transition: { staggerChildren: 0.14, delayChildren: 0.35 } },
 };
 const rise = {
   hidden: { opacity: 0, y: 26 },
@@ -45,7 +46,6 @@ export default function Page() {
   const [ratings, setRatings] = useState<Ratings | null>(null);
   const [weather, setWeather] = useState<Weather | null>(null);
   const [introDone, setIntroDone] = useState(false);
-  const [greetingSettled, setGreetingSettled] = useState(false);
   const [demoOpen, setDemoOpen] = useState(false);
   const [ov, setOv] = useState<Overrides>({ scene: null, windy: false, tod: null });
 
@@ -70,7 +70,7 @@ export default function Page() {
 
   useEffect(() => {
     if (!ready || !onboarded) return;
-    const t = setTimeout(() => setIntroDone(true), 1900);
+    const t = setTimeout(() => setIntroDone(true), 2300);
     return () => clearTimeout(t);
   }, [ready, onboarded]);
 
@@ -149,24 +149,11 @@ export default function Page() {
   return (
     <main>
       <GradientBackground palette={view?.palette ?? PALETTES.mild.day} />
-      {!greetingSettled && (
-        <Greeting
-          text={`${greeting}, Josie`}
-          introDone={introDone}
-          onSettled={() => setGreetingSettled(true)}
-        />
-      )}
+      <Greeting text={`${greeting}, Josie`} done={introDone} />
 
       {introDone && view && (
         <>
-          <section className="relative mx-auto flex h-dvh max-w-md flex-col px-6 pt-16">
-            <h1
-              className={`absolute left-6 top-8 text-xl font-bold ${
-                greetingSettled ? "" : "invisible"
-              }`}
-            >
-              {greeting}, Josie
-            </h1>
+          <section className="relative mx-auto flex h-dvh max-w-md flex-col px-6">
             {weather && !weather.live && (
               <span className="absolute right-6 top-8 rounded-full bg-neutral-900/5 px-3 py-1 text-xs font-semibold text-neutral-500">
                 demo data
