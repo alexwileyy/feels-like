@@ -15,7 +15,8 @@ Rules:
 - The feeling words provided (HOT, MILD, etc.) are calibrated to how Josie
   personally experiences temperature - trust them over the raw numbers.
 - If it's rainy AND windy (30km/h+), an umbrella is useless - say hood up.
-- Never use em-dashes. No emojis. No greeting like "Hi" - straight in.`;
+- Punctuation: the only dash allowed is the plain hyphen "-". Never use
+  em-dashes or en-dashes. No emojis. No greeting like "Hi" - straight in.`;
 
 export async function POST(req: Request) {
   if (!process.env.ANTHROPIC_API_KEY) {
