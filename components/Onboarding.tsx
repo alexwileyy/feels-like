@@ -36,14 +36,55 @@ const swap = {
 const NAME_STEP = 1;
 const FIRST_TEMP_STEP = 2;
 
+// In-progress answers survive a reload via a draft in localStorage,
+// cleared once onboarding completes.
+const DRAFT_KEY = "feels.onboarding-draft";
+
+interface Draft {
+  step: number;
+  name: string;
+  ratings: Ratings;
+}
+
+function readDraft(): Draft | null {
+  try {
+    const raw = localStorage.getItem(DRAFT_KEY);
+    if (!raw) return null;
+    const draft = JSON.parse(raw) as Draft;
+    if (
+      typeof draft.step !== "number" ||
+      typeof draft.name !== "string" ||
+      !Array.isArray(draft.ratings)
+    ) {
+      return null;
+    }
+    return draft;
+  } catch {
+    return null;
+  }
+}
+
 export default function Onboarding({
   onDone,
 }: {
   onDone: (ratings: Ratings, name: string) => void;
 }) {
-  const [step, setStep] = useState(0);
-  const [name, setName] = useState("");
-  const [ratings, setRatings] = useState<Ratings>([...DEFAULT_RATINGS]);
+  // Onboarding only ever mounts in the browser (the page renders nothing
+  // until localStorage has been read), so lazy initializers are safe here.
+  const [step, setStep] = useState(() => readDraft()?.step ?? 0);
+  const [name, setName] = useState(() => readDraft()?.name ?? "");
+  const [ratings, setRatings] = useState<Ratings>(
+    () => readDraft()?.ratings ?? [...DEFAULT_RATINGS]
+  );
+
+  useEffect(() => {
+    localStorage.setItem(DRAFT_KEY, JSON.stringify({ step, name, ratings }));
+  }, [step, name, ratings]);
+
+  const finish = (r: Ratings, n: string) => {
+    localStorage.removeItem(DRAFT_KEY);
+    onDone(r, n);
+  };
 
   // Preload every band character so slider swaps never flash.
   useEffect(() => {
@@ -92,7 +133,7 @@ export default function Onboarding({
               </button>
               <button
                 className="text-sm font-semibold text-neutral-400 underline"
-                onClick={() => onDone([...DEFAULT_RATINGS], "")}
+                onClick={() => finish([...DEFAULT_RATINGS], "")}
               >
                 Skip for now
               </button>
@@ -208,7 +249,7 @@ export default function Onboarding({
               </p>
             </div>
             <div className="pb-10">
-              <button className={primaryButton} onClick={() => onDone(ratings, cleanName)}>
+              <button className={primaryButton} onClick={() => finish(ratings, cleanName)}>
                 See today&apos;s forecast
               </button>
             </div>
