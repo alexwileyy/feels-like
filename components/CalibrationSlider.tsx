@@ -1,25 +1,41 @@
 "use client";
 
+import { useRef } from "react";
 import { motion, useReducedMotion } from "motion/react";
 
 // Waveform-style temperature slider: a row of bars tinted cold-to-hot; the
-// bars nearest the selection swell into a taller cluster. A transparent
-// native range input on top drives the value, so dragging, tapping,
-// keyboard arrows, and screen readers all work for free.
+// bars nearest the selection swell taller and more vivid, peaking at the
+// centre of the cluster. The whole box is draggable (pointer capture), and
+// a visually-hidden native range input keeps keyboard + screen readers.
 const N = 33;
-const STOPS = [
-  [127, 184, 240], // icy blue
-  [168, 216, 200], // cool green
-  [255, 217, 138], // warm amber
-  [255, 157, 107], // hot orange
-  [255, 107, 107], // boiling red
+
+// Resting pastel tints and the vivid versions the cluster blends toward.
+const MUTED = [
+  [127, 184, 240],
+  [168, 216, 200],
+  [255, 217, 138],
+  [255, 157, 107],
+  [255, 107, 107],
+];
+const VIVID = [
+  [37, 122, 235],
+  [46, 178, 126],
+  [255, 172, 27],
+  [255, 110, 32],
+  [240, 45, 45],
 ];
 
-function colorAt(t: number): string {
-  const seg = t * (STOPS.length - 1);
-  const i = Math.min(Math.floor(seg), STOPS.length - 2);
+function paletteAt(stops: number[][], t: number): number[] {
+  const seg = t * (stops.length - 1);
+  const i = Math.min(Math.floor(seg), stops.length - 2);
   const f = seg - i;
-  const [r, g, b] = STOPS[i].map((c, ch) => Math.round(c + (STOPS[i + 1][ch] - c) * f));
+  return stops[i].map((c, ch) => c + (stops[i + 1][ch] - c) * f);
+}
+
+function barColor(t: number, vividness: number): string {
+  const muted = paletteAt(MUTED, t);
+  const vivid = paletteAt(VIVID, t);
+  const [r, g, b] = muted.map((c, ch) => Math.round(c + (vivid[ch] - c) * vividness));
   return `rgb(${r}, ${g}, ${b})`;
 }
 
@@ -31,11 +47,29 @@ export default function CalibrationSlider({
   onChange: (v: number) => void;
 }) {
   const reduceMotion = useReducedMotion();
+  const trackRef = useRef<HTMLDivElement>(null);
   const pos = (value / 100) * (N - 1);
+
+  const setFromClientX = (clientX: number) => {
+    const rect = trackRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    const t = Math.min(1, Math.max(0, (clientX - rect.left) / rect.width));
+    onChange(Math.round(t * 100));
+  };
 
   return (
     <div className="w-full">
-      <div className="relative h-20 w-full touch-none">
+      <div
+        ref={trackRef}
+        className="relative h-20 w-full cursor-grab touch-none select-none active:cursor-grabbing"
+        onPointerDown={(e) => {
+          e.currentTarget.setPointerCapture(e.pointerId);
+          setFromClientX(e.clientX);
+        }}
+        onPointerMove={(e) => {
+          if (e.buttons > 0) setFromClientX(e.clientX);
+        }}
+      >
         <div className="flex h-full items-center justify-between px-1">
           {Array.from({ length: N }, (_, i) => {
             const d = Math.abs(i - pos);
@@ -45,8 +79,11 @@ export default function CalibrationSlider({
               <motion.span
                 key={i}
                 className="w-1 rounded-full"
-                style={{ backgroundColor: colorAt(i / (N - 1)) }}
-                animate={{ height, opacity: 0.3 + bump * 0.7 }}
+                animate={{
+                  height,
+                  opacity: 0.35 + bump * 0.65,
+                  backgroundColor: barColor(i / (N - 1), bump),
+                }}
                 transition={
                   reduceMotion
                     ? { duration: 0 }
@@ -63,7 +100,7 @@ export default function CalibrationSlider({
           value={value}
           onChange={(e) => onChange(Number(e.target.value))}
           aria-label="How does this temperature feel to you?"
-          className="thermo absolute inset-0 h-full w-full cursor-grab opacity-0 active:cursor-grabbing"
+          className="thermo pointer-events-none absolute inset-0 h-full w-full opacity-0"
         />
       </div>
       <div className="mt-1 flex justify-between text-xs font-semibold text-neutral-400">
