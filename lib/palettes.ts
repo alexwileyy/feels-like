@@ -9,15 +9,15 @@ export interface Palette {
 export const PALETTES: Record<Scene, Record<TimeOfDay, Palette>> = {
   hot: {
     dawn: { blobs: ["#ffd9c4", "#ffe9c8", "#ffc8b8"] },
-    day: { blobs: ["#ffd08a", "#ffe7b8", "#a8e1ff"] },
-    dusk: { blobs: ["#ffc49a", "#f0b8e0", "#ffdca8"] },
-    night: { blobs: ["#c9b8e8", "#f0c0a8", "#b8c4e8"] },
+    day: { blobs: ["#ffd08a", "#ffbfa0", "#ffe7b8"] },
+    dusk: { blobs: ["#ffc49a", "#ff9d7e", "#ffdca8"] },
+    night: { blobs: ["#dfb69e", "#cc9c85", "#e8c8a8"] },
   },
   mild: {
     dawn: { blobs: ["#ffe2b8", "#cdebcf", "#f8cdbb"] },
-    day: { blobs: ["#c2e8c2", "#fff0be", "#bfe2f2"] },
-    dusk: { blobs: ["#eed2a8", "#cbdfb8", "#e8c2d8"] },
-    night: { blobs: ["#b8c8d8", "#c2d0b8", "#afc0dc"] },
+    day: { blobs: ["#c2e8c2", "#fff0be", "#d9edb6"] },
+    dusk: { blobs: ["#eed2a8", "#cbdfb8", "#dfdca4"] },
+    night: { blobs: ["#b6cbae", "#c6d2b6", "#a6bba2"] },
   },
   rain: {
     dawn: { blobs: ["#cbd5e4", "#e0d8cc", "#b8c8dc"] },

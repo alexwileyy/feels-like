@@ -19,23 +19,31 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Ambient tint drift - slow, subtle wander of the radial washes */
+/* Ambient tint drift - the washes wander slowly around the screen on long,
+   meandering paths. Durations are near a minute so the motion is felt more
+   than seen; it should never pull focus from the foreground. */
 @keyframes drift-a {
-  from { transform: translate(-4%, -3%) scale(1); }
-  to { transform: translate(5%, 4%) scale(1.08); }
+  0% { transform: translate(-6%, -4%) scale(1); }
+  33% { transform: translate(9%, 7%) scale(1.07); }
+  66% { transform: translate(-3%, 12%) scale(0.96); }
+  100% { transform: translate(7%, -7%) scale(1.04); }
 }
 @keyframes drift-b {
-  from { transform: translate(4%, 5%) scale(1.05); }
-  to { transform: translate(-5%, -3%) scale(0.96); }
+  0% { transform: translate(5%, 6%) scale(1.05); }
+  33% { transform: translate(-8%, -2%) scale(0.97); }
+  66% { transform: translate(4%, -10%) scale(1.08); }
+  100% { transform: translate(-6%, 8%) scale(1); }
 }
 @keyframes drift-c {
-  from { transform: translate(2%, -5%) scale(0.97); }
-  to { transform: translate(-3%, 4%) scale(1.1); }
+  0% { transform: translate(2%, -6%) scale(0.97); }
+  33% { transform: translate(-9%, 5%) scale(1.06); }
+  66% { transform: translate(8%, 9%) scale(1); }
+  100% { transform: translate(-4%, -8%) scale(1.09); }
 }
 .blob { position: absolute; will-change: transform; }
-.blob-a { animation: drift-a 26s ease-in-out infinite alternate; }
-.blob-b { animation: drift-b 31s ease-in-out infinite alternate; }
-.blob-c { animation: drift-c 23s ease-in-out infinite alternate; }
+.blob-a { animation: drift-a 52s ease-in-out infinite alternate; }
+.blob-b { animation: drift-b 64s ease-in-out infinite alternate; }
+.blob-c { animation: drift-c 47s ease-in-out infinite alternate; }
 
 /* Soft glass surface for the supporting-info card */
 .glass {
