@@ -209,7 +209,7 @@ export default function Onboarding({
             </div>
             <div className="pb-10">
               <button className={primaryButton} onClick={() => onDone(ratings, cleanName)}>
-                Show me what to wear today
+                See today&apos;s forecast
               </button>
             </div>
           </motion.div>
