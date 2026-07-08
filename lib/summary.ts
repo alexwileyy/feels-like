@@ -1,7 +1,8 @@
 import type { FeelingWord } from "./calibration";
 
-// Everything Josie's weather report needs, template or LLM alike.
+// Everything the weather report needs, template or LLM alike.
 export interface SummaryInput {
+  name: string; // empty when the user skipped naming themselves
   word: FeelingWord;
   feelsLike: number;
   windKmh: number;
@@ -10,17 +11,18 @@ export interface SummaryInput {
 }
 
 const OPENERS: Record<FeelingWord, string> = {
-  FREEZING: "It's properly bitter out there, Josie",
-  COLD: "Bit nippy today, Josie",
-  MILD: "A lovely mild one today, Josie",
-  WARM: "Warming up nicely today, Josie",
-  HOT: "It's a scorcher, Josie",
+  FREEZING: "It's properly bitter out there",
+  COLD: "Bit nippy today",
+  MILD: "A lovely mild one today",
+  WARM: "Warming up nicely today",
+  HOT: "It's a scorcher",
 };
 
 // Deterministic summary composed from the day's data. Shown instantly, and
 // stands in whenever the AI report is loading or unavailable.
 export function templateSummary(s: SummaryInput): string {
-  const parts: string[] = [`${OPENERS[s.word]} - feels like ${Math.round(s.feelsLike)}°.`];
+  const opener = `${OPENERS[s.word]}${s.name ? `, ${s.name}` : ""}`;
+  const parts: string[] = [`${opener} - feels like ${Math.round(s.feelsLike)}°.`];
 
   const firstRain = s.hours.find((h) => h.isRaining);
   const temps = s.hours.map((h) => h.feelsLike);

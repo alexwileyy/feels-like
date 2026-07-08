@@ -57,7 +57,7 @@ export default function Character({ scene }: { scene: Scene }) {
             /* eslint-disable-next-line @next/next/no-img-element */
             <img
               src={`/characters/${scene}.png`}
-              alt={`Josie's outfit for ${scene} weather`}
+              alt={`Outfit for ${scene} weather`}
               className="h-full w-full object-contain drop-shadow-2xl"
               onError={() => setBroken((b) => ({ ...b, [scene]: true }))}
             />

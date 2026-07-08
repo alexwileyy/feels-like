@@ -32,23 +32,33 @@ const swap = {
   transition: { type: "spring" as const, stiffness: 300, damping: 28 },
 };
 
-// step 0 = welcome, 1..5 = one per sample temp, 6 = done
-export default function Onboarding({ onDone }: { onDone: (r: Ratings) => void }) {
+// step 0 = welcome, 1 = name, 2..6 = one per sample temp, 7 = done
+const NAME_STEP = 1;
+const FIRST_TEMP_STEP = 2;
+
+export default function Onboarding({
+  onDone,
+}: {
+  onDone: (ratings: Ratings, name: string) => void;
+}) {
   const [step, setStep] = useState(0);
+  const [name, setName] = useState("");
   const [ratings, setRatings] = useState<Ratings>([...DEFAULT_RATINGS]);
 
   // Preload every band character so slider swaps never flash.
   useEffect(() => {
-    [...BANDS.map((b) => b.image), "celebration"].forEach((name) => {
-      const img = new Image();
-      img.src = `/characters/${name}.png`;
+    [...BANDS.map((b) => b.image), "celebration"].forEach((img) => {
+      const el = new Image();
+      el.src = `/characters/${img}.png`;
     });
   }, []);
-  const tempIndex = step - 1;
-  const totalSteps = SAMPLE_TEMPS.length + 1; // welcome counts toward the beam
+
+  const tempIndex = step - FIRST_TEMP_STEP;
+  const totalSteps = SAMPLE_TEMPS.length + 2; // name + temps + finish beat
+  const cleanName = name.trim();
 
   const primaryButton =
-    "w-full rounded-full bg-neutral-900 px-8 py-4 text-lg font-semibold text-white shadow-xl transition-transform active:scale-95";
+    "w-full rounded-full bg-neutral-900 px-8 py-4 text-lg font-semibold text-white shadow-xl transition-transform active:scale-95 disabled:opacity-30";
 
   const band = tempIndex >= 0 ? BANDS.find((b) => ratings[tempIndex] < b.below)! : null;
 
@@ -71,7 +81,7 @@ export default function Onboarding({ onDone }: { onDone: (r: Ratings) => void })
             <div className="flex flex-1 flex-col items-center justify-center gap-5 text-center">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/glyphs/wave.png" alt="" className="h-20 w-20 drop-shadow" />
-              <h1 className="text-5xl font-bold tracking-tight">Hey Josie</h1>
+              <h1 className="text-5xl font-bold tracking-tight">Hey there</h1>
               <p className="max-w-xs text-lg font-medium leading-relaxed text-neutral-500">
                 Let&apos;s get to know you, and how the weather actually feels to you.
               </p>
@@ -82,9 +92,47 @@ export default function Onboarding({ onDone }: { onDone: (r: Ratings) => void })
               </button>
               <button
                 className="text-sm font-semibold text-neutral-400 underline"
-                onClick={() => onDone([...DEFAULT_RATINGS])}
+                onClick={() => onDone([...DEFAULT_RATINGS], "")}
               >
                 Skip for now
+              </button>
+            </div>
+          </motion.div>
+        )}
+
+        {step === NAME_STEP && (
+          <motion.div key="name" className="flex flex-1 flex-col" {...swap}>
+            <div className="pt-14 text-center">
+              <h1 className="text-4xl font-bold tracking-tight">
+                What should we <span className="text-accent">call you</span>?
+              </h1>
+              <p className="mt-2 text-sm font-medium text-neutral-400">
+                Your forecast, your name on it.
+              </p>
+            </div>
+            <div className="flex flex-1 flex-col items-center justify-center">
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && cleanName) setStep(FIRST_TEMP_STEP);
+                }}
+                placeholder="Your name"
+                autoFocus
+                autoComplete="given-name"
+                maxLength={24}
+                aria-label="Your name"
+                className="w-full border-b-2 border-neutral-900/10 bg-transparent pb-3 text-center text-4xl font-bold tracking-tight outline-none transition-colors placeholder:text-neutral-300 focus:border-accent"
+              />
+            </div>
+            <div className="pb-10">
+              <button
+                className={primaryButton}
+                disabled={!cleanName}
+                onClick={() => setStep(FIRST_TEMP_STEP)}
+              >
+                Next
               </button>
             </div>
           </motion.div>
@@ -144,7 +192,7 @@ export default function Onboarding({ onDone }: { onDone: (r: Ratings) => void })
           </motion.div>
         )}
 
-        {step === SAMPLE_TEMPS.length + 1 && (
+        {step === FIRST_TEMP_STEP + SAMPLE_TEMPS.length && (
           <motion.div key="done" className="flex flex-1 flex-col" {...swap}>
             <div className="flex flex-1 flex-col items-center justify-center gap-5 text-center">
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -156,11 +204,11 @@ export default function Onboarding({ onDone }: { onDone: (r: Ratings) => void })
               />
               <h1 className="text-4xl font-bold tracking-tight">You&apos;re all set</h1>
               <p className="max-w-xs text-lg font-medium text-neutral-500">
-                The forecast now speaks fluent Josie.
+                The forecast now speaks fluent {cleanName || "you"}.
               </p>
             </div>
             <div className="pb-10">
-              <button className={primaryButton} onClick={() => onDone(ratings)}>
+              <button className={primaryButton} onClick={() => onDone(ratings, cleanName)}>
                 Show me what to wear today
               </button>
             </div>

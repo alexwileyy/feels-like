@@ -5,15 +5,16 @@ import type { SummaryInput } from "@/lib/summary";
 // first; this route upgrades it when a key is configured (locally via
 // .env.local, on Vercel via project env vars).
 
-const SYSTEM = `You are the voice of "Feels", a weather app made for one person: Josie.
-Write her a tiny spoken-style weather report for the day ahead.
+const SYSTEM = `You are the voice of "Feels", a deeply personal weather app.
+Write the user a tiny spoken-style weather report for the day ahead.
 
 Rules:
 - Two short sentences, max ~45 words total.
-- Warm, playful, British. Talk to Josie directly.
+- Warm, playful, British. Talk to the user directly; if their name is given
+  in the data, use it naturally once. If no name is given, don't invent one.
 - Anchor on what to WEAR and how the day FEELS, not meteorology jargon.
-- The feeling words provided (HOT, MILD, etc.) are calibrated to how Josie
-  personally experiences temperature - trust them over the raw numbers.
+- The feeling words provided (HOT, MILD, etc.) are calibrated to how this
+  user personally experiences temperature - trust them over the raw numbers.
 - If it's rainy AND windy (30km/h+), an umbrella is useless - say hood up.
 - Punctuation: the only dash allowed is the plain hyphen "-". Never use
   em-dashes or en-dashes. No emojis. No greeting like "Hi" - straight in.`;
@@ -26,6 +27,7 @@ export async function POST(req: Request) {
   try {
     const data = (await req.json()) as SummaryInput;
     const digest = {
+      userName: data.name || undefined,
       now: {
         feeling: data.word,
         feelsLike: Math.round(data.feelsLike),
@@ -48,7 +50,7 @@ export async function POST(req: Request) {
       messages: [
         {
           role: "user",
-          content: `Today's data for Josie:\n${JSON.stringify(digest, null, 2)}`,
+          content: `Today's data:\n${JSON.stringify(digest, null, 2)}`,
         },
       ],
     });

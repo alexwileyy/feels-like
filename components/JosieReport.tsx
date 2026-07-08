@@ -63,7 +63,7 @@ export default function JosieReport({ input }: { input: SummaryInput }) {
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src="/characters/avatar.png"
-        alt="Josie"
+        alt="Your forecaster"
         className="h-12 w-12 shrink-0 rounded-full border border-black/5 bg-white object-cover shadow-sm"
         onError={(e) => ((e.target as HTMLImageElement).src = "/characters/mild.png")}
       />

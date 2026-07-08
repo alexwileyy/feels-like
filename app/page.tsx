@@ -16,6 +16,7 @@ import Onboarding from "@/components/Onboarding";
 import SupportCard from "@/components/SupportCard";
 
 const RATINGS_KEY = "feels.ratings";
+const NAME_KEY = "feels.name";
 
 // Representative feels-like temp for each forced demo scene, and how far the
 // "lying thermometer" reads from it.
@@ -44,6 +45,7 @@ const rise = {
 export default function Page() {
   const [ready, setReady] = useState(false);
   const [ratings, setRatings] = useState<Ratings | null>(null);
+  const [name, setName] = useState("");
   const [weather, setWeather] = useState<Weather | null>(null);
   const [introDone, setIntroDone] = useState(false);
   const [demoOpen, setDemoOpen] = useState(false);
@@ -52,6 +54,7 @@ export default function Page() {
   useEffect(() => {
     const stored = localStorage.getItem(RATINGS_KEY);
     if (stored) setRatings(JSON.parse(stored));
+    setName(localStorage.getItem(NAME_KEY) ?? "");
     setReady(true);
     fetchWeather().then(setWeather);
   }, []);
@@ -155,9 +158,11 @@ export default function Page() {
   if (!onboarded) {
     return (
       <Onboarding
-        onDone={(r) => {
+        onDone={(r, n) => {
           localStorage.setItem(RATINGS_KEY, JSON.stringify(r));
+          localStorage.setItem(NAME_KEY, n);
           setRatings(r);
+          setName(n);
         }}
       />
     );
@@ -169,7 +174,7 @@ export default function Page() {
   return (
     <main className="h-dvh snap-y snap-mandatory overflow-y-auto">
       <GradientBackground palette={view?.palette ?? PALETTES.mild.day} />
-      <Greeting text={`${greeting}, Josie`} done={introDone} />
+      <Greeting text={name ? `${greeting}, ${name}` : greeting} done={introDone} />
 
       {introDone && view && (
         <>
@@ -223,6 +228,7 @@ export default function Page() {
             <DayList
               hours={view.rail}
               report={{
+                name,
                 word: view.word,
                 feelsLike: view.feelsLike,
                 windKmh: view.stats.windKmh,

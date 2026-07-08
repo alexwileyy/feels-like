@@ -9,7 +9,7 @@ const elms = Elms_Sans({
 
 export const metadata: Metadata = {
   title: "Feels",
-  description: "Weather that knows how Josie feels",
+  description: "Weather that knows how you feel",
 };
 
 export const viewport: Viewport = {
