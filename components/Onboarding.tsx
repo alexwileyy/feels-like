@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { DEFAULT_RATINGS, SAMPLE_TEMPS, type Ratings } from "@/lib/calibration";
 import CalibrationSlider from "./CalibrationSlider";
@@ -8,13 +8,13 @@ import GradientBackground from "./GradientBackground";
 import { PALETTES } from "@/lib/palettes";
 
 // How the slider value maps to a felt band: label + the character who's
-// dressed for it. Toasty and Boiling share the beach character.
+// dressed (or melting) for it.
 const BANDS = [
   { below: 20, label: "Freezing", image: "freezing" },
   { below: 40, label: "Chilly", image: "cold" },
   { below: 60, label: "Just right", image: "mild" },
   { below: 80, label: "Toasty", image: "hot" },
-  { below: 101, label: "Boiling", image: "hot" },
+  { below: 101, label: "Boiling", image: "boiling" },
 ];
 
 const QUIPS = [
@@ -36,6 +36,14 @@ const swap = {
 export default function Onboarding({ onDone }: { onDone: (r: Ratings) => void }) {
   const [step, setStep] = useState(0);
   const [ratings, setRatings] = useState<Ratings>([...DEFAULT_RATINGS]);
+
+  // Preload every band character so slider swaps never flash.
+  useEffect(() => {
+    [...BANDS.map((b) => b.image), "celebration"].forEach((name) => {
+      const img = new Image();
+      img.src = `/characters/${name}.png`;
+    });
+  }, []);
   const tempIndex = step - 1;
   const totalSteps = SAMPLE_TEMPS.length + 1; // welcome counts toward the beam
 
@@ -93,8 +101,8 @@ export default function Onboarding({ onDone }: { onDone: (r: Ratings) => void })
               <p className="mt-2 text-sm font-medium text-neutral-400">{QUIPS[tempIndex]}</p>
             </div>
 
-            <div className="flex flex-1 flex-col items-center justify-center gap-2">
-              <div className="relative h-56 w-56">
+            <div className="flex min-h-0 flex-1 flex-col items-center justify-center gap-1">
+              <div className="relative aspect-square w-full max-w-[340px]">
                 <AnimatePresence mode="popLayout">
                   <motion.img
                     key={band!.image}

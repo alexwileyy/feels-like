@@ -46,41 +46,6 @@ body {
   box-shadow: 0 10px 32px rgb(0 0 0 / 0.09);
 }
 
-/* Chunky calibration slider */
-input[type="range"].thermo {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 100%;
-  height: 16px;
-  border-radius: 9999px;
-  background: linear-gradient(90deg, #7fb8f0, #a8d8c8, #ffd98a, #ff9d6b, #ff6b6b);
-  box-shadow: inset 0 2px 6px rgb(0 0 0 / 0.12);
-  outline-offset: 4px;
-}
-input[type="range"].thermo::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  height: 38px;
-  width: 38px;
-  border-radius: 9999px;
-  background: white;
-  border: 4px solid #171717;
-  box-shadow: 0 4px 12px rgb(0 0 0 / 0.22);
-  cursor: grab;
-}
-input[type="range"].thermo:active::-webkit-slider-thumb {
-  cursor: grabbing;
-  transform: scale(1.1);
-}
-input[type="range"].thermo::-moz-range-thumb {
-  height: 38px;
-  width: 38px;
-  border-radius: 9999px;
-  background: white;
-  border: 4px solid #171717;
-  box-shadow: 0 4px 12px rgb(0 0 0 / 0.22);
-  cursor: grab;
-}
-
 @media (prefers-reduced-motion: reduce) {
   .blob-a, .blob-b, .blob-c { animation: none; }
   *, *::before, *::after {
