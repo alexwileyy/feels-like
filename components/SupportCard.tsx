@@ -23,7 +23,7 @@ export default function SupportCard({ text, stats }: { text: string; stats: Stat
 
   return (
     <div className="glass w-full rounded-3xl px-6 py-5">
-      <div className="relative min-h-12">
+      <div className="relative flex min-h-12 items-center justify-center">
         <AnimatePresence mode="wait">
           <motion.p
             key={text}
