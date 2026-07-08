@@ -75,7 +75,19 @@ Drop the finals into `public/characters/` as `hot.png`, `mild.png`, `rain.png`, 
 (the golden autumn scene) and `freezing.png` (the snowy winter scene).
 Placeholders are in the app meanwhile, so any time they land I can swap them in.
 
-## 6. CELEBRATION - onboarding complete (drop in as celebrate.png)
+## 6. BOILING - literally melting (drop in as boiling.png)
+
+> Same character, same style, same island format as the previous images. Now: she is
+> absolutely sweltering - dripping with sweat, big drops flying off her forehead, rosy
+> cheeks flushed deep red, hair slightly stuck to her face, eyes squinting. She wears a
+> light white vest top and shorts and is fanning herself desperately with a small paper
+> hand fan. On the floating island base: parched, cracked dry earth with two or three
+> shiny puddles of sweat pooling at her feet, one tiny wilting plant drooping beside her,
+> and a huge chunky 3D sun blazing close above her head with wavy heat-haze lines rising
+> around her. An ice lolly lies melting on the ground next to her. Utterly melodramatic
+> "I am melting" energy. Transparent background, square format.
+
+## 7. CELEBRATION - onboarding complete (drop in as celebrate.png)
 
 > Same character, same style as the previous images. Now: she is jumping joyfully in
 > mid-air, arms stretched up in celebration, big delighted smile, eyes closed with
