@@ -193,12 +193,15 @@ export default function Page() {
             )}
 
             <motion.div
-              className="flex flex-1 flex-col items-center justify-center gap-5 pb-8"
+              className="flex min-h-0 flex-1 flex-col items-center justify-center gap-3 pb-9 pt-5"
               variants={stagger}
               initial="hidden"
               animate="show"
             >
-              <motion.div variants={rise} className="w-full">
+              <motion.div
+                variants={rise}
+                className="flex min-h-0 w-full flex-1 items-center justify-center"
+              >
                 <Character scene={view.scene} />
               </motion.div>
               <motion.div variants={rise}>
@@ -208,13 +211,13 @@ export default function Page() {
                   wordMotion={view.wordMotion}
                 />
               </motion.div>
-              <motion.div variants={rise} className="mt-6 w-full">
+              <motion.div variants={rise} className="mt-3 w-full">
                 <SupportCard text={view.rec} stats={view.stats} />
               </motion.div>
             </motion.div>
 
             <motion.div
-              className="absolute bottom-5 left-1/2 -translate-x-1/2 text-neutral-300"
+              className="absolute bottom-3 left-1/2 -translate-x-1/2 text-neutral-300"
               animate={{ y: [0, 6, 0] }}
               transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
               aria-hidden

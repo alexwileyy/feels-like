@@ -58,7 +58,9 @@ export default function Headline({
       <AnimatePresence mode="popLayout">
         <motion.h2
           key={`${word}-${wordMotion}`}
-          className={`font-bold tracking-tight ${word.length > 5 ? "text-6xl" : "text-7xl"}`}
+          className={`font-bold leading-none tracking-tight ${
+            word.length > 5 ? "text-[min(3.75rem,7dvh)]" : "text-[min(4.5rem,8.5dvh)]"
+          }`}
           style={{ color: WORD_COLORS[word] }}
           initial="hidden"
           animate="show"

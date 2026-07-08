@@ -22,7 +22,7 @@ export default function SupportCard({ text, stats }: { text: string; stats: Stat
   };
 
   return (
-    <div className="glass w-full rounded-3xl px-6 py-5">
+    <div className="glass w-full rounded-3xl px-6 py-4">
       <div className="relative flex min-h-12 items-center justify-center">
         <AnimatePresence mode="wait">
           <motion.p
@@ -37,7 +37,7 @@ export default function SupportCard({ text, stats }: { text: string; stats: Stat
           </motion.p>
         </AnimatePresence>
       </div>
-      <div className="mt-4 flex items-center justify-around border-t border-neutral-900/5 pt-4">
+      <div className="mt-3 flex items-center justify-around border-t border-neutral-900/5 pt-3">
         {STAT_META.map(({ key, glyph, label }) => (
           <div key={key} className="flex flex-col items-center gap-1">
             {/* eslint-disable-next-line @next/next/no-img-element */}
