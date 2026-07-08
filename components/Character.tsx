@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import type { Scene } from "@/lib/conditions";
 
@@ -14,11 +14,21 @@ const FALLBACK: Record<Scene, { main: string; accessory: string }> = {
   freezing: { main: "snowflake", accessory: "gloves" },
 };
 
+const ALL_SCENES: Scene[] = ["hot", "mild", "rain", "cold", "freezing"];
+
 export default function Character({ scene }: { scene: Scene }) {
   const [broken, setBroken] = useState<Partial<Record<Scene, boolean>>>({});
 
+  // Preload every scene so live demo swaps never flash a loading gap.
+  useEffect(() => {
+    ALL_SCENES.forEach((s) => {
+      const img = new Image();
+      img.src = `/characters/${s}.png`;
+    });
+  }, []);
+
   return (
-    <div className="relative mx-auto h-72 w-72">
+    <div className="relative mx-auto h-80 w-80">
       <AnimatePresence mode="popLayout">
         <motion.div
           key={scene}
