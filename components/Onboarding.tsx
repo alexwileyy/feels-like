@@ -93,7 +93,7 @@ export default function Onboarding({ onDone }: { onDone: (r: Ratings) => void })
         {tempIndex >= 0 && tempIndex < SAMPLE_TEMPS.length && (
           <motion.div key={`temp-${tempIndex}`} className="flex flex-1 flex-col" {...swap}>
             <div className="pt-14 text-center">
-              <h1 className="text-3xl font-bold tracking-tight">
+              <h1 className="text-4xl font-bold tracking-tight">
                 How does{" "}
                 <span className="font-bold text-accent">{SAMPLE_TEMPS[tempIndex]}°</span>{" "}
                 feel to you?
